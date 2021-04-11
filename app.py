@@ -9,7 +9,8 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-
+import pygsheets
+# 匯入憑證碼的json檔
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('IOmxiatB18j0urE8jbRQGxi4Kbrf7ZjVpfVk2svFCh+JoRF45vRe9/wanzNb4j54T8TuCICf7rhl7OPypV2qnCpa6l8PrSUUzoR4O4nSEOXbdyGIoN+Isn5ezMtcn7GkYUJjNQjqDVv+Fc34fTVUVgdB04t89/1O/w1cDnyilFU=')
@@ -38,10 +39,19 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
+    gc = pygsheets.authorize(service_account_file='superrun.json')
+    # 輸入要更改的Googles Sheets網址（也可直接用 Google Sheets 的 ID ）
+    gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
+    # 開啟該Google sheets
+    sh = gc.open_by_url(gs_url)
+    ws = sh.worksheet_by_title('week1_goal')
+    val = ws.get_value('A8')
+
+
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text='HI'))
+        TextSendMessage(text=val))
 
 
 if __name__ == "__main__":
