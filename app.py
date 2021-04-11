@@ -66,16 +66,23 @@ def personal(name):
                     achieve = ws.get_value('E' + str(cell))
                     disparity = ws.get_value('F' + str(cell))
                     return goal, now, achieve, disparity
-                    
+
 def handle_message(event):
     msg = event.message.text
-    val = '你好呆'
     if '超跑隊' in msg:
+        gc = pygsheets.authorize(service_account_file='superrun.json')
+
+        # 輸入要更改的Googles Sheets網址（也可直接用 Google Sheets 的 ID ）
+        gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
+
+        # 開啟該Google sheets
+        sh = gc.open_by_url(gs_url)
+
         ws = sh.worksheet_by_title(week_grades(msg[-1:]))
         g, n, a, d, = personal(msg[3:-1])
         rate = round(int(n) / int(g) * 100, 2)
         # print(msg[3:-1], g, n, a, d)
-        # val = msg[3:-1] + '\n目標步數：' + g + '\n當前步數：' + n + '\n是否達成：' + a + '\n還差幾步：' + d + + '\n達成率為：' + rate
+        val = msg[3:-1] + '\n目標步數：' + g + '\n當前步數：' + n + '\n是否達成：' + a + '\n還差幾步：' + d + + '\n達成率為：' + rate
 
     else:
         return
