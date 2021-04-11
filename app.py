@@ -74,7 +74,7 @@ def handle_message(event):
         rate = round(int(n) / int(g) * 100, 2)
         # print(msg[3:-1], g, n, a, d)
         val = msg[3:-1] + '\n目標步數：' + g + '\n當前步數：' + n + '\n是否達成：' + a + '\n還差幾步：' + d + + '\n達成率為：' + rate
-    else
+    else:
         return
 
     # gc = pygsheets.authorize(service_account_file='superrun.json')
