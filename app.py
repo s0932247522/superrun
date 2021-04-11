@@ -76,7 +76,8 @@ def handle_message(event):
         gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
         # 開啟該Google sheets
         sh = gc.open_by_url(gs_url)
-        ws = sh.worksheet_by_title(week_grades(msg[-1:]))
+        msg_week = msg[-1:]
+        ws = sh.worksheet_by_title(week_grades(msg_week))
         msg_name = msg[3:-1]
         g, n, a, d = personal(msg_name)
         rate = round(int(n) / int(g) * 100, 2)
