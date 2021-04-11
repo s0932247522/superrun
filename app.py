@@ -60,12 +60,12 @@ def week_grades(week):
 def personal(name):
     for cell in range(2,56):
         cel = 'B' + str(cell)
-                if ws.get_value(cel)[11:] == name:
-                    goal = ws.get_value('C' + str(cell))
-                    now = ws.get_value('D' + str(cell))
-                    achieve = ws.get_value('E' + str(cell))
-                    disparity = ws.get_value('F' + str(cell))
-                    return goal, now, achieve, disparity
+        if ws.get_value(cel)[11:] == name:
+            goal = ws.get_value('C' + str(cell))
+            now = ws.get_value('D' + str(cell))
+            achieve = ws.get_value('E' + str(cell))
+            disparity = ws.get_value('F' + str(cell))
+            return goal, now, achieve, disparity
 
 def handle_message(event):
     msg = event.message.text
