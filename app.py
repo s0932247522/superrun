@@ -36,8 +36,6 @@ def callback():
     return 'OK'
 
 
-
-
 @handler.add(MessageEvent, message=TextMessage)
 def week_grades(week):
     if week == '1':
@@ -54,13 +52,12 @@ def week_grades(week):
         week_find = 'week6_find'
     else:
         week_find = 'week1_find'
-
     return week_find
 
 def personal(name):
     for cell in range(2,56):
         cel = 'B' + str(cell)
-        if ws.get_value(cel)[11:] == name:
+        if ws.get_value(cel).split('-')[1].lstrip() == name:
             goal = ws.get_value('C' + str(cell))
             now = ws.get_value('D' + str(cell))
             achieve = ws.get_value('E' + str(cell))
@@ -73,7 +70,7 @@ def handle_message(event):
 
     if '@' in msg_call:
         msg_name = msg.split(' ')[1]
-        msg_week = msg.split(' ')[2]
+        msg_week = str(msg.split(' ')[2])
         gc = pygsheets.authorize(service_account_file='superrun.json')
         gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
         sh = gc.open_by_url(gs_url)
