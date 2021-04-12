@@ -35,32 +35,32 @@ def callback():
 
     return 'OK'
 
-def week_grades(week):
-    if week == '1':
-        week_find = 'week1_find'
-    elif week == '2':
-        week_find = 'week2_find'
-    elif week == '3':
-        week_find = 'week3_find'
-    elif week == '4':
-        week_find = 'week4_find'
-    elif week == '5':
-        week_find = 'week5_find'
-    elif week == '6':
-        week_find = 'week6_find'
-    else:
-        week_find = 'week1_find'
-    return week_find
+# def week_grades(week):
+#     if week == '1':
+#         week_find = 'week1_find'
+#     elif week == '2':
+#         week_find = 'week2_find'
+#     elif week == '3':
+#         week_find = 'week3_find'
+#     elif week == '4':
+#         week_find = 'week4_find'
+#     elif week == '5':
+#         week_find = 'week5_find'
+#     elif week == '6':
+#         week_find = 'week6_find'
+#     else:
+#         week_find = 'week1_find'
+#     return week_find
 
-def personal(name):
-    for cell in range(2,56):
-        cel = 'B' + str(cell)
-        if ws.get_value(cel).split('-')[1].lstrip() == name:
-            goal = ws.get_value('C' + str(cell))
-            now = ws.get_value('D' + str(cell))
-            achieve = ws.get_value('E' + str(cell))
-            disparity = ws.get_value('F' + str(cell))
-            return goal, now, achieve, disparity
+# def personal(name):
+#     for cell in range(2,56):
+#         cel = 'B' + str(cell)
+#         if ws.get_value(cel).split('-')[1].lstrip() == name:
+#             goal = ws.get_value('C' + str(cell))
+#             now = ws.get_value('D' + str(cell))
+#             achieve = ws.get_value('E' + str(cell))
+#             disparity = ws.get_value('F' + str(cell))
+#             return goal, now, achieve, disparity
 
             
 @handler.add(MessageEvent, message=TextMessage)
