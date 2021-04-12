@@ -68,19 +68,22 @@ def handle_message(event):
     msg = event.message.text
     msg_call = msg.split(' ')[0]
 
-    if '@' in msg_call:
-        msg_name = msg.split(' ')[1]
-        msg_week = str(msg.split(' ')[2])
-        gc = pygsheets.authorize(service_account_file='superrun.json')
-        gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
-        sh = gc.open_by_url(gs_url)
-        ws = sh.worksheet_by_title(week_grades(msg_week))
-        g, n, a, d = personal(msg_name)
-        rate = round(int(n) / int(g) * 100, 2)
-        val = msg[3:-1] + '\n目標步數：' + g + '\n當前步數：' + n + '\n是否達成：' + a + '\n還差幾步：' + d + + '\n達成率為：' + rate 
-
-
-    
+    # if '@' in msg_call:
+    #     msg_name = msg.split(' ')[1]
+    #     msg_week = str(msg.split(' ')[2])
+    #     gc = pygsheets.authorize(service_account_file='superrun.json')
+    #     gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
+    #     sh = gc.open_by_url(gs_url)
+    #     ws = sh.worksheet_by_title(week_grades(msg_week))
+    #     g, n, a, d = personal(msg_name)
+    #     rate = round(int(n) / int(g) * 100, 2)
+    #     val = msg[3:-1] + '\n目標步數：' + g + '\n當前步數：' + n + '\n是否達成：' + a + '\n還差幾步：' + d + + '\n達成率為：' + rate 
+    gc = pygsheets.authorize(service_account_file='superrun.json')
+    gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
+    sh = gc.open_by_url(gs_url)
+    ws = sh.worksheet_by_title('week1_find')
+    val = ws.get_value('B3')
+    val = val.split('-').listrip()
 
 
     line_bot_api.reply_message(
