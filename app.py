@@ -35,8 +35,6 @@ def callback():
 
     return 'OK'
 
-
-@handler.add(MessageEvent, message=TextMessage)
 def week_grades(week):
     if week == '1':
         week_find = 'week1_find'
@@ -63,6 +61,10 @@ def personal(name):
             achieve = ws.get_value('E' + str(cell))
             disparity = ws.get_value('F' + str(cell))
             return goal, now, achieve, disparity
+
+            
+@handler.add(MessageEvent, message=TextMessage)
+
 
 def handle_message(event):
     msg = event.message.text
