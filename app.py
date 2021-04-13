@@ -10,11 +10,39 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import pygsheets
-# 匯入憑證碼的json檔
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('IOmxiatB18j0urE8jbRQGxi4Kbrf7ZjVpfVk2svFCh+JoRF45vRe9/wanzNb4j54T8TuCICf7rhl7OPypV2qnCpa6l8PrSUUzoR4O4nSEOXbdyGIoN+Isn5ezMtcn7GkYUJjNQjqDVv+Fc34fTVUVgdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('92f35de5943c5deeb8b57bff35e1b3b0')
+
+
+def week_grades(week):
+    if week == '1':
+        week_find = 'week1_find'
+    elif week == '2':
+        week_find = 'week2_find'
+    elif week == '3':
+        week_find = 'week3_find'
+    elif week == '4':
+        week_find = 'week4_find'
+    elif week == '5':
+        week_find = 'week5_find'
+    elif week == '6':
+        week_find = 'week6_find'
+    else:
+        week_find = 'week1_find'
+    return week_find
+
+
+def personal(name):
+    for cell in range(2,56):
+        cel = 'B' + str(cell)
+        if ws.get_value(cel).split('-')[1].lstrip() == name:
+            goal = ws.get_value('C' + str(cell))
+            now = ws.get_value('D' + str(cell))
+            achieve = ws.get_value('E' + str(cell))
+            disparity = ws.get_value('F' + str(cell))
+            return goal, now, achieve, disparity
 
 
 @app.route("/callback", methods=['POST'])
@@ -35,62 +63,17 @@ def callback():
 
     return 'OK'
 
-# def week_grades(week):
-#     if week == '1':
-#         week_find = 'week1_find'
-#     elif week == '2':
-#         week_find = 'week2_find'
-#     elif week == '3':
-#         week_find = 'week3_find'
-#     elif week == '4':
-#         week_find = 'week4_find'
-#     elif week == '5':
-#         week_find = 'week5_find'
-#     elif week == '6':
-#         week_find = 'week6_find'
-#     else:
-#         week_find = 'week1_find'
-#     return week_find
 
-# def personal(name):
-#     for cell in range(2,56):
-#         cel = 'B' + str(cell)
-#         if ws.get_value(cel).split('-')[1].lstrip() == name:
-#             goal = ws.get_value('C' + str(cell))
-#             now = ws.get_value('D' + str(cell))
-#             achieve = ws.get_value('E' + str(cell))
-#             disparity = ws.get_value('F' + str(cell))
-#             return goal, now, achieve, disparity
-
-            
 @handler.add(MessageEvent, message=TextMessage)
-
-
 def handle_message(event):
-    msg = event.message.text
-    msg_call = msg.split(' ')[0]
+    if (event.message.text.split(' ')[0] == '#') and ((event.message.text.split(' ')) == 3):
+        gc = pygsheets.authorize(service_account_file='superrun.json')
+        gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
+        sh = gc.open_by_url(gs_url)
+        ws = sh.worksheet_by_title(week_grades(event.message.text.split(' ')[1]))
+        g, n, a, d = personal(event.message.text.split(' ')[2])
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
 
-    # if '@' in msg_call:
-    #     msg_name = msg.split(' ')[1]
-    #     msg_week = str(msg.split(' ')[2])
-    #     gc = pygsheets.authorize(service_account_file='superrun.json')
-    #     gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
-    #     sh = gc.open_by_url(gs_url)
-    #     ws = sh.worksheet_by_title(week_grades(msg_week))
-    #     g, n, a, d = personal(msg_name)
-    #     rate = round(int(n) / int(g) * 100, 2)
-    #     val = msg[3:-1] + '\n目標步數：' + g + '\n當前步數：' + n + '\n是否達成：' + a + '\n還差幾步：' + d + + '\n達成率為：' + rate 
-    gc = pygsheets.authorize(service_account_file='superrun.json')
-    gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
-    sh = gc.open_by_url(gs_url)
-    ws = sh.worksheet_by_title('week1_find')
-    val = ws.get_value('B3')
-    val = val.split('-').listrip()
-
-
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=val))
 
 
 if __name__ == "__main__":
