@@ -35,10 +35,9 @@ def week_grades(week):
 
 
 def personal(name):
-    aa = 0
     for cell in range(2,60):
         cel = 'B' + str(cell)
-        if ws.get_value(cel).split('-')[1].lstrip() == name:
+        if ws.get_value(cel).split('-')[1] == name:
             goal = ws.get_value('C' + str(cell))
             now = ws.get_value('D' + str(cell))
             achieve = ws.get_value('E' + str(cell))
@@ -46,8 +45,7 @@ def personal(name):
             aa = 1
             return goal, now, achieve, disparity
 
-    if aa == 0:
-        return '沒', '進'，'入'，'if'
+
 
         
 
