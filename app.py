@@ -46,7 +46,7 @@ def personal(name):
             aa = 1
             return goal, now, achieve, disparity
 
-    if aa = 0:
+    if aa == 0:
         return '沒', '進'，'入'，'if'
 
         
