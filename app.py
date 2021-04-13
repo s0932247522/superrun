@@ -77,12 +77,10 @@ def handle_message(event):
         gc = pygsheets.authorize(service_account_file='superrun.json')
         gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
         sh = gc.open_by_url(gs_url)
-        ws = sh.worksheet_by_title(week_grades('week1_find'))
+        ws = sh.worksheet_by_title(week_grades(1))
         val = ws.get_value('F3')
-        val += '進入if'
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
-    else:
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='沒進入if'))
+
 
 if __name__ == "__main__":
     app.run()
