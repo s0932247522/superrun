@@ -86,7 +86,7 @@ def handle_message(event):
         sh = gc.open_by_url(gs_url)
         ws = sh.worksheet_by_title(week_grades(event.message.text.split(' ')[1]))
         # val = ws.get_value('F3')
-        # g, n, a, d = personal(event.message.text.split(' ')[2])
+        g, n, a, d = personal(event.message.text.split(' ')[2])
         val = g + ' ' + n + ' ' + a + ' ' + d
         
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
