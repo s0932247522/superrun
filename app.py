@@ -35,14 +35,21 @@ def week_grades(week):
 
 
 def personal(name):
+    aa = 0
     for cell in range(2,60):
         cel = 'B' + str(cell)
-        if ws.get_value(cel).split('-')[2].lstrip() == name:
+        if ws.get_value(cel).split('-')[1].lstrip() == name:
             goal = ws.get_value('C' + str(cell))
             now = ws.get_value('D' + str(cell))
             achieve = ws.get_value('E' + str(cell))
             disparity = ws.get_value('F' + str(cell))
+            aa = 1
             return goal, now, achieve, disparity
+
+    if aa = 0:
+        return '沒', '進'，'入'，'if'
+
+        
 
 
 @app.route("/callback", methods=['POST'])
@@ -80,8 +87,8 @@ def handle_message(event):
         ws = sh.worksheet_by_title(week_grades(event.message.text.split(' ')[1]))
         # val = ws.get_value('F3')
         # g, n, a, d = personal(event.message.text.split(' ')[2])
-        # val = g + ' ' + n + ' ' + a + ' ' + d
-        val = ws.get_value('B4').split('-')[1].lstrip()
+        val = g + ' ' + n + ' ' + a + ' ' + d
+        
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
 
 
