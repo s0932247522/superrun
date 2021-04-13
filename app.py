@@ -90,7 +90,7 @@ def handle_message(event):
         val += '目前步數：'+ n + '步\n'
         val += '是否達標：'+ a + '\n'
         val += '剩餘步數：'+ d + '步\n'
-        val += '周達成率：'+ float(rate) + '％\n'
+        val += '周達成率：'+ str(rate) + '％\n'
 
 
         
