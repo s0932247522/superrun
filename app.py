@@ -37,12 +37,11 @@ def week_grades(week):
 def personal(name,ws):
     for cell in range(2,60):
         cel = 'B' + str(cell)
-        if ws.get_value(cel).split('-')[1] == name:
+        if ws.get_value(cel).split('-')[1].lstrip() == name:
             goal = ws.get_value('C' + str(cell))
             now = ws.get_value('D' + str(cell))
             achieve = ws.get_value('E' + str(cell))
             disparity = ws.get_value('F' + str(cell))
-            aa = 1
             return goal, now, achieve, disparity
 
 
@@ -78,13 +77,13 @@ def handle_message(event):
     #     ws = sh.worksheet_by_title(week_grades(event.message.text.split(' ')[1]))
     #     g, n, a, d = personal(event.message.text.split(' ')[2])
     #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
-    if (event.message.text.split(' ')[0] == '#') and (len(event.message.text.split(' ')) == 3):
+    if (event.message.text.split('-')[0] == '#') and (len(event.message.text.split('-')) == 3):
         gc = pygsheets.authorize(service_account_file='superrun.json')
         gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
         sh = gc.open_by_url(gs_url)
-        ws = sh.worksheet_by_title(week_grades(event.message.text.split(' ')[1]))
+        ws = sh.worksheet_by_title(week_grades(event.message.text.split('-')[1]))
         # val = ws.get_value('F3')
-        g, n, a, d = personal(event.message.text.split(' ')[2], ws)
+        g, n, a, d = personal(event.message.text.split('-')[2], ws)
         val = g + ' ' + n + ' ' + a + ' ' + d
         
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
