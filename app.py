@@ -80,6 +80,8 @@ def handle_message(event):
         ws = sh.worksheet_by_title(week_grades('week1_find'))
         val = ws.get_value('F3')
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
+    else:
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='沒進入if'))
 
 if __name__ == "__main__":
     app.run()
