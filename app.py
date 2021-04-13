@@ -66,15 +66,20 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if (event.message.text.split(' ')[0] == '#') and ((event.message.text.split(' ')) == 3):
-        gc = pygsheets.authorize(service_account_file='superrun.json')
-        gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
-        sh = gc.open_by_url(gs_url)
-        ws = sh.worksheet_by_title(week_grades(event.message.text.split(' ')[1]))
-        g, n, a, d = personal(event.message.text.split(' ')[2])
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
+    # if (event.message.text.split(' ')[0] == '#') and ((event.message.text.split(' ')) == 3):
+    #     gc = pygsheets.authorize(service_account_file='superrun.json')
+    #     gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
+    #     sh = gc.open_by_url(gs_url)
+    #     ws = sh.worksheet_by_title(week_grades(event.message.text.split(' ')[1]))
+    #     g, n, a, d = personal(event.message.text.split(' ')[2])
+    #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
 
-
+    gc = pygsheets.authorize(service_account_file='superrun.json')
+    gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
+    sh = gc.open_by_url(gs_url)
+    ws = sh.worksheet_by_title(week_grades('week1_find'))
+    ws.get_value('F3')
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
 
 if __name__ == "__main__":
     app.run()
