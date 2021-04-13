@@ -77,8 +77,10 @@ def handle_message(event):
         gc = pygsheets.authorize(service_account_file='superrun.json')
         gs_url = 'https://docs.google.com/spreadsheets/d/1mk9luUpS0h2XHZ1p2gKECADIMc-hdAjXQlxPM-9F40U/edit#gid=0'
         sh = gc.open_by_url(gs_url)
-        ws = sh.worksheet_by_title(week_grades('1'))
-        val = ws.get_value('F3')
+        ws = sh.worksheet_by_title(week_grades(event.message.text.split(' ')[1]))
+        # val = ws.get_value('F3')
+        g, n, a, d = personal(event.message.text.split(' ')[2])
+        val = g + ' ' + n + ' ' + a + ' ' + d
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=val))
 
 
