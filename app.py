@@ -84,13 +84,13 @@ def handle_message(event):
         ws = sh.worksheet_by_title(week_grades(event.message.text.split('-')[1]))
         # val = ws.get_value('F3')
         g, n, a, d = personal(event.message.text.split('-')[2], ws)
-        # rate = round(int(n) / int(g) * 100, 2)
+        rate = round(int(n) / int(g) * 100, 2)
         val = '第'+ event.message.text.split('-')[1]+ '周\n'
         val += '本周目標：'+ g + '步\n'
         val += '目前步數：'+ n + '步\n'
         val += '是否達標：'+ a + '\n'
         val += '剩餘步數：'+ d + '步\n'
-        # val += '周達成率：'+ rate + '％\n'
+        val += '周達成率：'+ float(rate) + '％\n'
 
 
         
